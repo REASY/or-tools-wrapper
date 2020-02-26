@@ -1,0 +1,82 @@
+group = 'or-tools-wrapper'
+version = '7.5.0'
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+}
+
+apply plugin: 'maven'
+apply plugin: 'scala'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileScala.options.encoding = 'UTF-8'
+def scalaBinaryVersion = "2.12"
+
+sourceSets {
+    main {
+        resources {
+            srcDir "src/main/resources"
+        }
+    }
+    test {
+        resources {
+            srcDir "src/test/resources"
+        }
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile "org.scala-lang:scala-library:2.12.10"
+
+    testCompile group: 'org.scalatest', name: "scalatest_${scalaBinaryVersion}", version: '3.0.8'
+}
+
+jar {
+    baseName = 'or-tools-wrapper'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+    }
+}
