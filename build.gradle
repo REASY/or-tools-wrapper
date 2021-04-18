@@ -1,5 +1,5 @@
 group = 'or-tools-wrapper'
-version = '7.5.1'
+version = '8.2'
 
 buildscript {
     repositories {
@@ -11,14 +11,11 @@ buildscript {
 }
 
 apply plugin: 'maven'
-apply plugin: 'scala'
+apply plugin: 'java'
 apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-compileScala.options.encoding = 'UTF-8'
-def scalaBinaryVersion = "2.12"
 
 sourceSets {
     main {
@@ -40,18 +37,12 @@ repositories {
 }
 
 dependencies {
-    compile files("libs/com.google.ortools.jar")
-
-    compile "com.google.protobuf:protobuf-java:3.11.4"
-
-    compile "org.scala-lang:scala-library:2.12.10"
-
-    testCompile group: 'org.scalatest', name: "scalatest_${scalaBinaryVersion}", version: '3.0.8'
+    compile files("libs/ortools-java-8.2.8710.jar")
 }
 
 jar {
     baseName = 'or-tools-wrapper'
-    from { files("libs/com.google.ortools.jar").collect { it.isDirectory() ? it : zipTree(it) } }
+    from { files("libs/ortools-java-8.2.8710.jar").collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
