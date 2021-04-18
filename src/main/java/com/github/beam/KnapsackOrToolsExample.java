@@ -44,6 +44,9 @@ public class KnapsackOrToolsExample {
     }
 
     public static void main(String[] args) throws Exception {
+        System.out.println("OS name: " + System.getProperty("os.name"));
+        System.out.println("OS arch: " + System.getProperty("os.arch"));
+        System.out.println("OS version: " + System.getProperty("os.version"));
         OrToolsLoader.load();
         KnapsackOrToolsExample.solve();
     }
