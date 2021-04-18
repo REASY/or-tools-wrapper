@@ -1,5 +1,5 @@
 group = 'or-tools-wrapper'
-version = '8.2'
+version = '8.2.1'
 
 buildscript {
     repositories {
